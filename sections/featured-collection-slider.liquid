@@ -1,0 +1,77 @@
+{{ 'featured-collection-slider.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  This section is used to display a slider of products from a collection.
+{% endcomment %}
+
+{% assign collection = collections[section.settings.collection] %}
+{% if collection %}
+  <div class="featured-collection-slider-section">
+    <div class="page-width">
+      <div class="section-header text-center">
+        <h2>{{ section.settings.title }}</h2>
+        <a class="collection-link" href="{{ collection.url }}">View all</a>
+      </div>
+
+      <div class="featured-collection-slider">
+        <div
+          data-flickity='
+            {
+              "cellAlign": "left",
+              "prevNextButtons": false,
+              "autoPlay": {{ section.settings.autoplay }}
+            }
+          '
+          id="featuredCollectionSlider"
+          class="featured-collection-slider__wrapper"
+        >
+          {% for product in collection.products %}
+            <div class="featured-collection-slider__item">
+              {% render 'card-product', card_product: product, quick_add: 'standard', media_aspect_ratio: 'landscape' %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'featured-collection-slider.js' | asset_url}}" defer></script>
+
+{% schema %}
+{
+  "name": "Feat collection slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feat collection slider",
+      "category": "Featured",
+      "settings": {
+        "title": "Featured collection",
+        "collection": "frontpage"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{
