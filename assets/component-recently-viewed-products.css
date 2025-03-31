@@ -13,6 +13,7 @@
 }
 .recently-viewed-products-grid .product-card img {
   aspect-ratio: 1 / 1;
+  width: 100%;
 }
 .recently-viewed-products-grid .product-card p {
   font-size: 1.5rem;
