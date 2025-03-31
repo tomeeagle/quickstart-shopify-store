@@ -1,31 +1,43 @@
-// Web component that gets recently viewed products from the Shopify API and displays them in a grid
 class RecentlyViewedProducts extends HTMLElement {
   constructor() {
     super();
     this.recentlyViewedProducts = [];
-    this.sectionId = this.closest('.shopify-section').id.replace(
+    this.sectionId = this.closest('.shopify-section')?.id.replace(
       'shopify-section-',
       ''
     );
     this.recentlyViewedProducts =
-      JSON.parse(localStorage.getItem(`recently_viewed_products`)) || [];
+      JSON.parse(localStorage.getItem('recently_viewed_products')) || [];
     this.render();
   }
 
+  async addToCart(productId) {
+    try {
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: productId, quantity: 1 })
+      });
+
+      if (!response.ok) throw new Error('Failed to add to cart');
+
+      const data = await response.json();
+      alert(`Added ${data.product_title} to cart!`);
+    } catch (error) {
+      console.error(error);
+      alert('Error adding product to cart. Please try again.');
+    }
+  }
+
   render() {
-    console.log(this.recentlyViewedProducts);
     if (this.recentlyViewedProducts.length === 0) return;
 
     const productGrid = document.createElement('div');
-    productGrid.classList.add(
-      'recently-viewed-products-grid'
-    );
-    // Filter out the current product from the recently viewed products
-    console.log("Product ID: ",   window.productId);
+    productGrid.classList.add('recently-viewed-products-grid');
+
+    // Remove current product from recently viewed list
     this.recentlyViewedProducts = this.recentlyViewedProducts.filter(
-      (product) => {
-        return product.productId !== window.productId;
-      }
+      (product) => product.productId !== window.productId
     );
 
     this.recentlyViewedProducts.forEach((product) => {
@@ -34,14 +46,24 @@ class RecentlyViewedProducts extends HTMLElement {
       productCard.innerHTML = `
         <a href="${product.productUrl}">
           <img src="${product.productImg}" alt="${product.productTitle}">
-          <h2>${product.productTitle}</h2>
+          <p class="font-semibold">${product.productTitle}</p>
+          <p class="text-gray-700">${product.productPrice}</p>
         </a>
+        <button class="add-to-cart-btn shopify-payment-button__button bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-id="${product.productVariantId}">Add to Cart</button>
       `;
       productGrid.appendChild(productCard);
     });
 
-    console.log(productGrid);
     this.appendChild(productGrid);
+
+    // Add event listeners for "Add to Cart" buttons
+    this.querySelectorAll('.add-to-cart-btn').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const productId = event.target.getAttribute('data-id');
+        this.addToCart(productId);
+      });
+    });
   }
 }
+
 customElements.define('recently-viewed-products', RecentlyViewedProducts);
