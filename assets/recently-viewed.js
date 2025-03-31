@@ -83,7 +83,7 @@ class RecentlyViewedProducts extends HTMLElement {
           <p class="font-semibold">${product.productTitle}</p>
           <p class="text-gray-700">${product.productPrice}</p>
         </a>
-        <button class="add-to-cart-btn shopify-payment-button__button bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-id="${product.productVariantId}">Add to Cart</button>
+        <button class="add-to-cart-btn bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-id="${product.productVariantId}">Add to Cart</button>
       `;
       productGrid.appendChild(productCard);
     });

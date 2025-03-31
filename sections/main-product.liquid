@@ -5,7 +5,7 @@
       const pdpData = {
         productId: {{ product.id }},
         productTitle: '{{ product.title }}',
-        productImg: "{{ product.featured_image | img_url: '' }}",
+        productImg: "{{ product.featured_image | image_url: width: 150 }}",
         productPrice: "{{ product.price | money | remove_first: '' }}",
         productUrl: '{{ product.url }}',
         productVariantId: {{ product.selected_or_first_available_variant.id }}
