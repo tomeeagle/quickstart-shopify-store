@@ -1,3 +1,35 @@
+{% comment %} Add a script here that adds the current  {% endcomment %}
+<script>
+  (function () {
+    function setRecentlyViewedPdp() {
+      const pdpData = {
+        productId: {{ product.id }},
+        productTitle: '{{ product.title }}',
+        productImg: "{{ product.featured_image | img_url: '' }}",
+        productPrice: "{{ product.price | money | remove_first: '' }}",
+        productUrl: '{{ product.url }}',
+      };
+
+      const storageKey = 'recently_viewed_products';
+      const localData = localStorage.getItem(storageKey);
+      let productArr = localData ? JSON.parse(localData) : [];
+
+      // Remove existing entry if already viewed
+      productArr = productArr.filter((product) => product.productTitle !== pdpData.productTitle);
+
+      // Add new product to the front
+      productArr.unshift(pdpData);
+
+      // Keep only the last 4 viewed products
+      productArr = productArr.slice(0, 4);
+
+      localStorage.setItem(storageKey, JSON.stringify(productArr));
+    }
+
+    setRecentlyViewedPdp();
+  })();
+</script>
+
 <product-info
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
@@ -15,6 +47,7 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'component-recently-viewed-products.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -116,9 +149,6 @@
                       {{ product.title | escape }}
                     </h2>
                   </a>
-                  <script src="{{ 'recently-viewed.js' | asset_url }}" defer="defer"></script>
-                  {% comment %} Render the recently viewed products component {% endcomment %}
-                  <recently-viewed-products></recently-viewed-products>
                 </div>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
@@ -486,6 +516,13 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+                <script src="{{ 'recently-viewed.js' | asset_url }}" defer="defer"></script>
+                {% comment %} Set the window.productId to that of the current product {% endcomment %}
+                <script>
+                  window.productId = {{ product.id }};
+                </script>
+                {% comment %} Render the recently viewed products component {% endcomment %}
+                <recently-viewed-products></recently-viewed-products>
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
