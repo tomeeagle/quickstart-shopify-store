@@ -11,7 +11,7 @@
         productVariantId: {{ product.selected_or_first_available_variant.id }}
       };
 
-      const storageKey = 'recently_viewed_products';
+      const storageKey = 'recently_viewed_rca';
       const localData = localStorage.getItem(storageKey);
       let productArr = localData ? JSON.parse(localData) : [];
 

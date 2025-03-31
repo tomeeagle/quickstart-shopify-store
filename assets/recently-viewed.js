@@ -11,7 +11,7 @@ class RecentlyViewedProducts extends HTMLElement {
     );
     this.title = this.getAttribute('title') || 'Recently Viewed Products';
     this.recentlyViewedProducts =
-      JSON.parse(localStorage.getItem('recently_viewed_products')) || [];
+      JSON.parse(localStorage.getItem('recently_viewed_rca')) || [];
     this.render();
   }
 
