@@ -9,6 +9,7 @@ class RecentlyViewedProducts extends HTMLElement {
       'shopify-section-',
       ''
     );
+    this.title = this.getAttribute('title') || 'Recently Viewed Products';
     this.recentlyViewedProducts =
       JSON.parse(localStorage.getItem('recently_viewed_products')) || [];
     this.render();
@@ -39,10 +40,11 @@ class RecentlyViewedProducts extends HTMLElement {
 
       const data = await response.json();
       // Update cart drawer
-      
+
       if (this.cart) {
         this.cart.renderContents(data); // Ensure you are passing the correct data
-        if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
+        if (this.cart && this.cart.classList.contains('is-empty'))
+          this.cart.classList.remove('is-empty');
       } else {
         console.log('Cart drawer not found.');
       }
@@ -55,6 +57,7 @@ class RecentlyViewedProducts extends HTMLElement {
   render() {
     if (this.recentlyViewedProducts.length === 0) return;
 
+    // Create grid container
     const productGrid = document.createElement('div');
     productGrid.classList.add('recently-viewed-products-grid');
 
@@ -62,6 +65,14 @@ class RecentlyViewedProducts extends HTMLElement {
     this.recentlyViewedProducts = this.recentlyViewedProducts.filter(
       (product) => product.productId !== window.productId
     );
+
+    // Create title element - only if there are products, and if the current product is not in the list
+    if (this.recentlyViewedProducts.length >= 1) {
+      const titleElement = document.createElement('h2');
+      titleElement.classList.add('text-2xl', 'font-bold', 'mb-4');
+      titleElement.textContent = this.title;
+      this.appendChild(titleElement);
+    }
 
     this.recentlyViewedProducts.forEach((product) => {
       const productCard = document.createElement('div');

@@ -523,7 +523,7 @@
                   window.productId = {{ product.id }};
                 </script>
                 {% comment %} Render the recently viewed products component {% endcomment %}
-                <recently-viewed-products></recently-viewed-products>
+                <recently-viewed-products title="Add recently viewed items"></recently-viewed-products>
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">

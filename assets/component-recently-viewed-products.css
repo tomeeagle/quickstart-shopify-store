@@ -1,5 +1,4 @@
 .recently-viewed-products-grid {
-  /* Three grid columns on desktop */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
