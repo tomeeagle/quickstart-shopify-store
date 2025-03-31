@@ -8,6 +8,7 @@
         productImg: "{{ product.featured_image | img_url: '' }}",
         productPrice: "{{ product.price | money | remove_first: '' }}",
         productUrl: '{{ product.url }}',
+        productVariantId: {{ product.selected_or_first_available_variant.id }}
       };
 
       const storageKey = 'recently_viewed_products';
