@@ -4,3 +4,18 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
+
+.recently-viewed-products-grid .product-card,
+.recently-viewed-products-grid .product-card a {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.recently-viewed-products-grid .product-card img {
+  aspect-ratio: 1 / 1;
+}
+.recently-viewed-products-grid .product-card p {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
