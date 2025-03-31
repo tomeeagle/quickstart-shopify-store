@@ -100,20 +100,25 @@
                 <div class="product__title" {{ block.shopify_attributes }}>
                   <h1>{{ product.title | escape }}</h1>
                   {% comment %} Render the product tags horizontally here {% endcomment %}
-                  {% if product.tags.size > 0 %}
-                    <ul class="product__tags list-unstyled flex flex-wrap gap-[0.5rem]">
-                      {% for tag in product.tags %}
-                        <li class="product__tag bg-black text-white py-1 px-5 rounded-full">
-                          <span>{{ tag }}</span>
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  {% endif %}
+                  {% comment %}
+                    {% if product.tags.size > 0 %}
+                      <ul class="product__tags list-unstyled flex flex-wrap gap-[0.5rem]">
+                        {% for tag in product.tags %}
+                          <li class="product__tag bg-black text-white py-1 px-5 rounded-full">
+                            <span>{{ tag }}</span>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  {% endcomment %}
                   <a href="{{ product.url }}" class="product__title">
                     <h2 class="h1">
                       {{ product.title | escape }}
                     </h2>
                   </a>
+                  <script src="{{ 'recently-viewed.js' | asset_url }}" defer="defer"></script>
+                  {% comment %} Render the recently viewed products component {% endcomment %}
+                  <recently-viewed-products></recently-viewed-products>
                 </div>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
