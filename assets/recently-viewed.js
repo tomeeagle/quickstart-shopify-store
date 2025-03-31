@@ -2,6 +2,9 @@ class RecentlyViewedProducts extends HTMLElement {
   constructor() {
     super();
     this.recentlyViewedProducts = [];
+    this.cart =
+      document.querySelector('cart-notification') ||
+      document.querySelector('cart-drawer');
     this.sectionId = this.closest('.shopify-section')?.id.replace(
       'shopify-section-',
       ''
@@ -13,19 +16,39 @@ class RecentlyViewedProducts extends HTMLElement {
 
   async addToCart(productId) {
     try {
+      const formData = new FormData();
+      formData.append('id', productId);
+      formData.append('quantity', 1);
+
+      // If there's a cart and sections exist, append relevant data
+      if (this.cart) {
+        formData.append(
+          'sections',
+          this.cart.getSectionsToRender().map((section) => section.id)
+        );
+        formData.append('sections_url', window.location.pathname);
+        // this.cart.setActiveElement(document.activeElement);
+      }
+
       const response = await fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: productId, quantity: 1 })
+        body: formData // Use FormData here
       });
 
       if (!response.ok) throw new Error('Failed to add to cart');
 
       const data = await response.json();
-      alert(`Added ${data.product_title} to cart!`);
+      // Update cart drawer
+      
+      if (this.cart) {
+        this.cart.renderContents(data); // Ensure you are passing the correct data
+        if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
+      } else {
+        console.log('Cart drawer not found.');
+      }
     } catch (error) {
       console.error(error);
-      alert('Error adding product to cart. Please try again.');
+      console.log('Error adding product to cart. Please try again.');
     }
   }
 
