@@ -1,34 +1,32 @@
 {% comment %} Add a script here that adds the current  {% endcomment %}
 <script>
-  (function () {
-    function setRecentlyViewedPdp() {
-      const pdpData = {
-        productId: {{ product.id }},
-        productTitle: '{{ product.title }}',
-        productImg: "{{ product.featured_image | image_url: width: 150 }}",
-        productPrice: "{{ product.price | money | remove_first: '' }}",
-        productUrl: '{{ product.url }}',
-        productVariantId: {{ product.selected_or_first_available_variant.id }}
-      };
+  function setRecentlyViewedPdp() {
+    const pdpData = {
+      productId: {{ product.id }},
+      productTitle: '{{ product.title }}',
+      productImg: "{{ product.featured_image | image_url: width: 150 }}",
+      productPrice: "{{ product.price | money | remove_first: '' }}",
+      productUrl: '{{ product.url }}',
+      productVariantId: {{ product.selected_or_first_available_variant.id }}
+    };
 
-      const storageKey = 'recently_viewed_rca';
-      const localData = localStorage.getItem(storageKey);
-      let productArr = localData ? JSON.parse(localData) : [];
+    const storageKey = 'recently_viewed_rca';
+    const localData = localStorage.getItem(storageKey);
+    let productArr = localData ? JSON.parse(localData) : [];
 
-      // Remove existing entry if already viewed
-      productArr = productArr.filter((product) => product.productTitle !== pdpData.productTitle);
+    // Remove existing entry if already viewed
+    productArr = productArr.filter((product) => product.productTitle !== pdpData.productTitle);
 
-      // Add new product to the front
-      productArr.unshift(pdpData);
+    // Add new product to the front
+    productArr.unshift(pdpData);
 
-      // Keep only the last 4 viewed products
-      productArr = productArr.slice(0, 4);
+    // Keep only the last 4 viewed products
+    productArr = productArr.slice(0, 4);
 
-      localStorage.setItem(storageKey, JSON.stringify(productArr));
-    }
+    localStorage.setItem(storageKey, JSON.stringify(productArr));
+  }
 
-    setRecentlyViewedPdp();
-  })();
+  setRecentlyViewedPdp();
 </script>
 
 <product-info
