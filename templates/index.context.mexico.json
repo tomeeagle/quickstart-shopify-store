@@ -8,9 +8,20 @@
  * ------------------------------------------------------------
  */
 {
-  "markets": {
-    "mexico": {
-      "parent": "@default"
+  "parent": "index.json",
+  "context": {
+    "market": "mexico"
+  },
+  "sections": {
+    "image_banner": {
+      "settings": {},
+      "blocks": {
+        "heading": {
+          "settings": {
+            "heading": "Loco ina de Coco"
+          }
+        }
+      }
     }
   }
 }
