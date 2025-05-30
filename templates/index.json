@@ -9,14 +9,6 @@
  */
 {
   "sections": {
-    "featured_collection_slider_hqxM83": {
-      "type": "featured-collection-slider",
-      "settings": {
-        "title": "Featured collection",
-        "collection": "snow-boards",
-        "autoplay": false
-      }
-    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -62,6 +54,14 @@
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
         "show_text_below": false
+      }
+    },
+    "featured_collection_slider_hqxM83": {
+      "type": "featured-collection-slider",
+      "settings": {
+        "title": "Featured collection",
+        "collection": "snow-boards",
+        "autoplay": false
       }
     },
     "rich_text": {
@@ -230,8 +230,8 @@
     }
   },
   "order": [
-    "featured_collection_slider_hqxM83",
     "image_banner",
+    "featured_collection_slider_hqxM83",
     "rich_text",
     "featured_collection",
     "collage",
