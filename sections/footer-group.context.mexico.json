@@ -12,5 +12,12 @@
   "context": {
     "market": "mexico"
   },
-  "sections": {}
+  "sections": {
+    "footer": {
+      "settings": {
+        "enable_language_selector": true
+      },
+      "blocks": {}
+    }
+  }
 }
