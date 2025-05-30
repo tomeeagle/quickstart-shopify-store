@@ -12,5 +12,16 @@
   "context": {
     "market": "mexico"
   },
-  "sections": {}
+  "sections": {
+    "image_banner": {
+      "settings": {},
+      "blocks": {
+        "heading": {
+          "settings": {
+            "heading": "Loco ina de Coco"
+          }
+        }
+      }
+    }
+  }
 }
