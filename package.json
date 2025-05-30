@@ -10,8 +10,8 @@
   "scripts": {
     "dev": "run-p -sr \"shopify:dev -- {@}\" \"vite:dev\" --",
     "deploy": "run-s \"vite:build\" \"shopify:push -- {@}\" --",
-    "shopify:dev": "shopify theme dev",
-    "shopify:push": "shopify theme push",
+    "shopify:dev": "shopify theme dev --store quickstart-a5b55889-2",
+    "shopify:push": "shopify theme push --store quickstart-a5b55889-2",
     "vite:dev": "vite",
     "vite:build": "vite build"
   }
